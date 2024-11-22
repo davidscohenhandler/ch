@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commission Split Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            box-sizing: border-box;
+        }
+        .button {
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #005A9E;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Commission Split Calculator</h1>
+        <form id="calculator-form">
+            <label for="propertyValue">Property Value</label>
+            <input type="number" id="propertyValue" required>
+
+            <label for="percentageFee">Percentage Fee (ex GST)</label>
+            <input type="number" id="percentageFee" required>
+
+            <label for="referralFee">Referral Fee (%)</label>
+            <input type="number" id="referralFee" required>
+
+            <label for="findersFee">Finder's Fee (dollar amount)</label>
+            <input type="number" id="findersFee">
+
+            <label for="ba1Split">BA1 Split (%)</label>
+            <input type="number" id="ba1Split" required>
+
+            <label for="ba2Split">BA2 Split (%)</label>
+            <input type="number" id="ba2Split" required>
+
+            <label for="ba3Split">BA3 Split (%)</label>
+            <input type="number" id="ba3Split" required>
+
+            <label for="ba4Split">BA4 Split (%)</label>
+            <input type="number" id="ba4Split" required>
+
+            <label for="chSplit">CH Split (%)</label>
+            <input type="number" id="chSplit" required>
+
+            <button type="button" class="button" onclick="calculate()">Calculate</button>
+        </form>
+
+        <div id="results" class="output"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            const propertyValue = parseFloat(document.getElementById('propertyValue').value);
+            const percentageFee = parseFloat(document.getElementById('percentageFee').value);
+            const referralFee = parseFloat(document.getElementById('referralFee').value) / 100;
+            const findersFee = parseFloat(document.getElementById('findersFee').value) || 0;
+
+            const ba1Split = parseFloat(document.getElementById('ba1Split').value) / 100;
+            const ba2Split = parseFloat(document.getElementById('ba2Split').value) / 100;
+            const ba3Split = parseFloat(document.getElementById('ba3Split').value) / 100;
+            const ba4Split = parseFloat(document.getElementById('ba4Split').value) / 100;
+            const chSplit = parseFloat(document.getElementById('chSplit').value) / 100;
+
+            const totalSplits = ba1Split + ba2Split + ba3Split + ba4Split + chSplit;
+
+            if (totalSplits !== 1) {
+                document.getElementById('results').innerHTML = "Error: The splits must add up to 100%.";
+                return;
+            }
+
+            const totalCommission = propertyValue * (percentageFee / 100);
+            const referralFeeAmount = totalCommission * referralFee;
+            const remainingCommission = totalCommission - referralFeeAmount;
+
+            const baFinderFeeSplit = findersFee / (ba1Split + ba2Split + ba3Split + ba4Split);
+
+            const ba1FinderFee = baFinderFeeSplit * ba1Split;
+            const ba2FinderFee = baFinderFeeSplit * ba2Split;
+            const ba3FinderFee = baFinderFeeSplit * ba3Split;
+            const ba4FinderFee = baFinderFeeSplit * ba4Split;
+
+            const ba1Share = (remainingCommission * ba1Split) - ba1FinderFee;
+            const ba2Share = (remainingCommission * ba2Split) - ba2FinderFee;
+            const ba3Share = (remainingCommission * ba3Split) - ba3FinderFee;
+            const ba4Share = (remainingCommission * ba4Split) - ba4FinderFee;
+            const chShare = remainingCommission * chSplit;
+
+            document.getElementById('results').innerHTML = `
+                <strong>Results:</strong><br>
+                Total Commission: $${totalCommission.toFixed(2)}<br>
+                Referral Fee Amount: $${referralFeeAmount.toFixed(2)}<br>
+                Remaining Commission: $${remainingCommission.toFixed(2)}<br>
+                <br>
+                Finder's Fee Distribution:<br>
+                BA1 Finder's Fee: $${ba1FinderFee.toFixed(2)}<br>
+                BA2 Finder's Fee: $${ba2FinderFee.toFixed(2)}<br>
+                BA3 Finder's Fee: $${ba3FinderFee.toFixed(2)}<br>
+                BA4 Finder's Fee: $${ba4FinderFee.toFixed(2)}<br>
+                <br>
+                Net Distribution:<br>
+                BA1 Share: $${ba1Share.toFixed(2)}<br>
+                BA2 Share: $${ba2Share.toFixed(2)}<br>
+                BA3 Share: $${ba3Share.toFixed(2)}<br>
+                BA4 Share: $${ba4Share.toFixed(2)}<br>
+                CH Share: $${chShare.toFixed(2)}
+            `;
+        }
+    </script>
+</body>
+</html>

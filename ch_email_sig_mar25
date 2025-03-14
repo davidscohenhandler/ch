@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Signature Generator</title>
+  <style>
+    /* Base styling - replace font-family values with your brand fonts as needed */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Brandon Grotesque', sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+    /* Left form area */
+    .form-section {
+      flex: 1;
+      padding: 20px;
+      background-color: #ffffff;
+      border-right: 1px solid #ddd;
+      overflow-y: auto;
+    }
+    .form-section h2 {
+      font-family: 'NT Fabulous Regular', sans-serif;
+      margin-bottom: 20px;
+      color: #3b3a39;
+    }
+    .form-section label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #3b3a39;
+    }
+    .form-section input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    /* Right preview area */
+    .preview-section {
+      flex: 1;
+      padding: 20px;
+      background-color: #ffffff;
+      overflow-y: auto;
+    }
+    .preview-section h2 {
+      font-family: 'NT Fabulous Regular', sans-serif;
+      margin-bottom: 20px;
+      color: #3b3a39;
+    }
+    .signature {
+      border: 1px solid #ddd;
+      padding: 20px;
+      font-size: 14px;
+      color: #3b3a39;
+      line-height: 1.5;
+    }
+    .signature .name {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .signature .title {
+      margin-bottom: 10px;
+    }
+    .company-logo {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+    .company-logo img {
+      max-width: 150px;
+      height: auto;
+    }
+    .signature .contact div {
+      margin-bottom: 3px;
+    }
+    .social-media {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+    .social-media img {
+      width: 24px;
+      height: 24px;
+    }
+    .disclaimer {
+      margin-top: 15px;
+      font-size: 10px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Form Section -->
+    <div class="form-section">
+      <h2>Signature Generator</h2>
+      <form id="signatureForm">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="First Name" />
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="Last Name" />
+
+        <label for="jobTitle">Job Title</label>
+        <input type="text" id="jobTitle" placeholder="Job Title" />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="name@cohenhandler.com.au" />
+
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" placeholder="+61 400 000 000" />
+      </form>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+      <h2>Signature Preview</h2>
+      <div class="signature" id="signaturePreview">
+        <!-- The content here will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get input elements
+    const firstNameInput = document.getElementById('firstName');
+    const lastNameInput = document.getElementById('lastName');
+    const jobTitleInput = document.getElementById('jobTitle');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const signaturePreview = document.getElementById('signaturePreview');
+
+    // Function to update the signature preview live
+    function updatePreview() {
+      const firstName = firstNameInput.value || 'FIRST';
+      const lastName = lastNameInput.value || 'LAST';
+      const jobTitle = jobTitleInput.value || 'ACCOUNT MANAGER';
+      const email = emailInput.value || 'name@cohenhandler.com.au';
+      const phone = phoneInput.value || '+61 400 000 000';
+
+      signaturePreview.innerHTML = `
+        <div class="name">${firstName} ${lastName}</div>
+        <div class="title">${jobTitle}</div>
+        <div class="company-logo">
+          <img src="https://cohenhandlerpl.sharepoint.com/:i:/s/chexchange/EdSLHBw2X4dHlvTEBTIqilABTpposa6dnyMT-LbaAjsmfA?e=KtCfkm" alt="Cohen Handler Logo" />
+        </div>
+        <div class="contact">
+          <div class="email">${email}</div>
+          <div class="phone">${phone}</div>
+        </div>
+        <div class="social-media">
+          <a href="https://www.facebook.com/cohenhandler" target="_blank">
+            <img src="https://cohenhandlerpl.sharepoint.com/:i:/s/chexchange/EQUat47N7LBIqVRe6FSVLmABM1DYVwmHi5hmexBpMua-Ww?e=uPJ8t9" alt="Facebook" />
+          </a>
+          <a href="https://www.instagram.com/cohenhandler" target="_blank">
+            <img src="https://cohenhandlerpl.sharepoint.com/:i:/s/chexchange/EWbZUY_8g0BOrxU-7whl1BUBjGQ6S_OHg-IANyRSNK6Pig?e=lUQ3JD" alt="Instagram" />
+          </a>
+          <a href="https://www.linkedin.com/company/cohenhandler" target="_blank">
+            <img src="https://cohenhandlerpl.sharepoint.com/:i:/s/chexchange/EZuAADO0WbxBhCXjVxy8nAMBA3vPawyK6X8_ahab0C1IFQ?" alt="LinkedIn" />
+          </a>
+          <a href="https://www.cohenhandler.com.au" target="_blank">
+            <img src="https://cohenhandlerpl.sharepoint.com/:i:/s/chexchange/ESFgy9qGc3BLqGkyf3v93icB0Nd2-_qaHMRf6qyD96yUdg?e=1MoW4G" alt="Website" />
+          </a>
+        </div>
+        <div class="disclaimer">
+          This email may contain confidential information. If you are not the intended recipient(s) you are hereby notified that any dissemination, distribution or copying of this email message is strictly prohibited. If you have received this message in error, please immediately notify the sender and delete this email message from your computer. Information provided by Cohen Handler is never intended to be relied upon as specific investment advice and is not a substitute for such advice. The team at Cohen Handler are buyer’s agents- not financial planners, investment advisers, accountants, or lawyers. Before taking any action or risking any money, you should always check with your own qualified professional advisers.
+        </div>
+      `;
+    }
+
+    // Update preview on input changes
+    firstNameInput.addEventListener('input', updatePreview);
+    lastNameInput.addEventListener('input', updatePreview);
+    jobTitleInput.addEventListener('input', updatePreview);
+    emailInput.addEventListener('input', updatePreview);
+    phoneInput.addEventListener('input', updatePreview);
+
+    // Initialize preview on page load
+    updatePreview();
+  </script>
+</body>
+</html>
